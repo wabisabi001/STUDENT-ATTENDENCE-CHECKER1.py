@@ -14,24 +14,20 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t ${IMAGE_NAME} .'
+                bat 'docker build -t %IMAGE_NAME% .'
             }
         }
 
         stage('Test Execution') {
             steps {
-                // Feeds sample input (Name, USN, Total Classes, Attended Classes) non-interactively
-                sh '''
-                    printf "John Doe\\n1CR21CS001\\n40\\n32\\n" | docker run --rm -i ${IMAGE_NAME}
-                '''
+                bat '(echo John Doe& echo 1CR21CS001& echo 40& echo 32) | docker run --rm -i %IMAGE_NAME%'
             }
         }
     }
 
     post {
         always {
-            // Remove test container remnants
-            sh 'docker image prune -f || true'
+            bat 'docker image prune -f'
         }
         success {
             echo 'Build, packaging, and execution completed successfully!'
