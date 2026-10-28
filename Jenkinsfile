@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "student-attendance:latest"
+        PATH = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
     }
 
     stages {
